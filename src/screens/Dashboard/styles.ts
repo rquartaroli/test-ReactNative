@@ -6,6 +6,8 @@ export const Container = styled.View`
  `}
 `;
 
+export const ScrollContainer = styled.ScrollView``
+
 export const ContainerGPS = styled.View`
   ${({ theme }) => css`
    width: 100%;

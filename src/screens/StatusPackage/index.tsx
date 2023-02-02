@@ -1,13 +1,16 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+
 import { Header } from '../../components/Header';
 import { RowStatusPackage } from '../../components/RowStatusPackage';
 
 import * as S from './styles';
 
 export function StatusPackage() {
+  const navigation = useNavigation();
 
   function handleGoBack() {
-    console.log("voltar para o dashboard");
+    navigation.goBack();
   }
 
   return (

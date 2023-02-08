@@ -43,10 +43,13 @@ expo start
 Você conseguirá visualizar em seu próprio celular, só precisa ter o aplicativo Expo Go instalado nele, ai é só ler o código de barras gerado no terminal e pronto. Também consegue visualizar pelo emulador android por exemplo, basta instalar o expo go nele também e executar a partir do emulador, fica à seu critério.
 
 **Observações**: 
-**1** Necessário estar com o [backend](https://github.com/contele/contele-vagas/tree/master/react-native) executando para estar com seu pleno funcionamento.
-**2** Lembre-se de alterar o IP em **src/services/api** para o IP de sua máquina local, evitando erros de conexão do Axios com a API.
+
+**1 -** Necessário estar com o [backend](https://github.com/contele/contele-vagas/tree/master/react-native) executando para estar com seu pleno funcionamento.
+<br/>
+**2 -** Lembre-se de alterar o IP em **src/services/api** para o IP de sua máquina local, evitando erros de conexão do Axios com a API.
 
 **Comentários sobre o Projeto**:
+
 Gostaria de dizer que considerei o uso do banco de dados [Watermelondb](https://github.com/Nozbe/WatermelonDB) para realizar a funcionalidade de offline-first, mas acabei obtendo alguns erros durante a instalação do mesmo e não fiquei com tempo para me aprofundar na solução do problema, por isso optei por fazer essa sincronização apenas com o uso da Context do próprio React junto a variáveis de estado.
 
 ---

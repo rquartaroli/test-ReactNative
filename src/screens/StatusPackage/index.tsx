@@ -5,9 +5,13 @@ import { Header } from '../../components/Header';
 import { RowStatusPackage } from '../../components/RowStatusPackage';
 
 import * as S from './styles';
+import { usePackagePoint } from '../../hooks/packagePointsContext';
+import { FlatList } from 'react-native';
 
 export function StatusPackage() {
   const navigation = useNavigation();
+
+  const { packagesPoint } = usePackagePoint();
 
   function handleGoBack() {
     navigation.goBack();
@@ -17,21 +21,27 @@ export function StatusPackage() {
     <S.Container>
       <Header variant="status" actionPress={handleGoBack} />
       <S.Content>
-        <S.Hr />
-        <RowStatusPackage
-          idPackage="XXXXX"
-          hourPackage="11:32"
-          isCompleted={false}
-        />
-        <RowStatusPackage
-          idPackage="XXXXX"
-          hourPackage="10:32"
-          isCompleted={false}
-        />
-        <RowStatusPackage
-          idPackage="XXXX"
-          hourPackage="09:32"
-          isCompleted={true}
+
+        <FlatList
+          data={packagesPoint}
+          keyExtractor={item => item.id}
+          renderItem={({ item, index }) => 
+            <>
+              <S.Hr />
+              <RowStatusPackage
+                idPackage={item.id}
+                hourPackage={item.hour}
+                isCompleted={item.isSync}
+              />
+              {index === (packagesPoint.length - 1) &&
+              <S.Hr />
+              }
+            </>
+          }
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingBottom: 25,
+          }}
         />
       </S.Content>
     </S.Container>

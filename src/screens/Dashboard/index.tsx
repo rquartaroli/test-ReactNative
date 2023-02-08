@@ -8,6 +8,8 @@ import { Header } from '../../components/Header';
 import { IntervalButton } from '../../components/IntervalButton';
 
 import * as S from './styles';
+import { LocationPackageDTO } from '../../DTOs/locationPackageDTO';
+import { usePackagePoint } from '../../hooks/packagePointsContext';
 
 export function Dashboard() {
   const theme = useTheme();
@@ -16,8 +18,14 @@ export function Dashboard() {
   const [isThreeSecondsActive, setIsThreeSecondsActive] = useState(false);
   const [isOneSecondActive, setIsOneSecondActive] = useState(false);
 
-  const [isEnabled, setIsEnabled] = useState(true);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const { 
+    location,
+    errorMsg,
+    changeIntervalSeconds,
+    isOnline,
+    toggleSwitchStatusOnLine,
+    disabledToggleStatusOnline,
+  } = usePackagePoint();
 
   const navigation = useNavigation();
 
@@ -25,7 +33,8 @@ export function Dashboard() {
     navigation.navigate('statusPackage');
   }
 
-  function handleChangeActiveButtonTen() {
+  async function handleChangeActiveButtonTen() {
+    changeIntervalSeconds(10000)
     if(!isTenSecondsActive)  {
       setIsTenSecondsActive(true)
       setIsFiveSecondsActive(false)
@@ -34,7 +43,8 @@ export function Dashboard() {
     }
   }
 
-  function handleChangeActiveButtonFive() {
+  async function handleChangeActiveButtonFive() {
+    changeIntervalSeconds(5000)
     if(!isFiveSecondsActive)  {
       setIsTenSecondsActive(false)
       setIsFiveSecondsActive(true)
@@ -44,6 +54,7 @@ export function Dashboard() {
   }
 
   function handleChangeActiveButtonThree() {
+    changeIntervalSeconds(3000)
     if(!isThreeSecondsActive)  {
       setIsTenSecondsActive(false)
       setIsFiveSecondsActive(false)
@@ -53,12 +64,20 @@ export function Dashboard() {
   }
 
   function handleChangeActiveButtonOne() {
+    changeIntervalSeconds(1000)
     if(!isOneSecondActive)  {
       setIsTenSecondsActive(false)
       setIsFiveSecondsActive(false)
       setIsThreeSecondsActive(false)
       setIsOneSecondActive(true)
     }
+  }
+
+  let text: string | any = 'Esperando....';
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = location as LocationPackageDTO;
   }
 
   return (
@@ -72,7 +91,7 @@ export function Dashboard() {
               My GPS - Tracking
             </S.TitleGPS>
             <S.StatusInfoGPS>
-            {isEnabled ? 'Online' : 'Offline'}
+            {isOnline ? 'Online' : 'Offline'}
             </S.StatusInfoGPS>
           </S.WrapperInfoStatusGPS>
         </S.ContainerGPS>
@@ -83,15 +102,16 @@ export function Dashboard() {
               Status do serviço
             </S.TitleService>
             <S.InfoService>
-              {isEnabled ? 'Serviço ativo' : 'Serviço inativo'}
+              {isOnline ? 'Serviço ativo' : 'Serviço inativo'}
             </S.InfoService>
           </S.WrapperStatusService>
           <Switch 
             trackColor={{false: theme.colors.gray300, true: theme.colors.gray300}}
-            thumbColor={isEnabled ? theme.colors.green500 : theme.colors.gray100}
+            thumbColor={isOnline ? theme.colors.green500 : theme.colors.gray100}
             ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleSwitch}
-            value={isEnabled}
+            disabled={disabledToggleStatusOnline}
+            onValueChange={toggleSwitchStatusOnLine}
+            value={isOnline}
           />
         </S.ContainerStatusService>
 
